@@ -23,9 +23,7 @@ Training and testing twitter are both applied to stemming process first and then
 |Neural Network|94.23%|93.35%|
 
 ### 3) Visualization
-[Folium](https://python-visualization.github.io/folium/) is based on leaflet.js and adapted to python, it’s very easy to use and powerful tool to build an interactive map.
-
-[Sample Map](https://rawcdn.githack.com/Kuduhe/Disaster_on_twitter/7d34d5a53e5314fad206902a2bc7b80a4bdf4d74/Maps/20191104map.html)
+[Folium](https://python-visualization.github.io/folium/) is based on leaflet.js and adapted to python, it’s very easy to use and powerful tool to build an interactive map. For this project I'm using Folium to build the map, the following link is a demonstration of how the map works:[Demo Map](https://rawcdn.githack.com/Kuduhe/Disaster_on_twitter/7d34d5a53e5314fad206902a2bc7b80a4bdf4d74/Maps/20191104map.html)
 ## 2. Map
 Using [folium](https://python-visualization.github.io/folium/) to build Interactive map in HTML.
 **![](./Maps/Demo.gif)**
