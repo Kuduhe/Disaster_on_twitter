@@ -25,7 +25,7 @@ Training and testing twitter are both applied to stemming process first and then
 ### 3) Visualization
 [Folium](https://python-visualization.github.io/folium/) is based on leaflet.js and adapted to python, it’s very easy to use and powerful tool to build an interactive map.
 
-[Sample Map](./Maps/20191104map.html)
+[Sample Map](https://cdn.github.com/Kuduhe/Disaster_on_twitter/blob/master/Maps/20191104map.html)
 ## 2. Map
 Using [folium](https://python-visualization.github.io/folium/) to build Interactive map in HTML.
 **![](./Maps/Demo.gif)**
