@@ -3,7 +3,8 @@
 This project is to help relevant organization build situational awareness by live twitter data from the location identified by NASA satellite that’s on fire (detected by the surface temperature and light). So we can help people in need or arranging resources.
 
 ## 1. Work Flow
-```mermaid
+```
+mermaid
 graph LR
 A(Data Collection) -- CrisisNLP/Kaggle --> B(Training Twitter)
 A(Data Collection) -- Twitter API --> C(Testing Twitter)
