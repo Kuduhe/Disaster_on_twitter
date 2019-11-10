@@ -28,7 +28,7 @@ Training and testing twitter are both applied to stemming process first and then
 [Sample Map](./Maps/20191104map.html)
 ## 2. Map
 Using [folium](https://python-visualization.github.io/folium/) to build Interactive map in HTML.
-**![](https://lh5.googleusercontent.com/SElJ-o1nAcNBzivCn92oRmlcS2-PVHJRfw3Vjh87w2p0s3pa67BQOfiLzEvv0C6GmRO8k0a5WQbcThqiXCU_q3l0rVvXsGbZwGckGPDgo--x4r-lFeUcSidqedbQSQzEXC0NJQ-EdB0)**
+**![](./Maps/Demo.gif)**
 
 ## 3. Files
 
