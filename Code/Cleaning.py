@@ -91,34 +91,39 @@ def cleantest(df):
     df.fillna(0,inplace = True)
     df['Longitude'] = df.locationcoor.map(lambda x: float(x.split(',')[1]))
     df['Latitude'] = df.locationcoor.map(lambda x: float(x.split(',')[0]))
-    for i in df.index:
-        if  df.loc[i,'location'] == 0:
-            df.loc[i,'twlong'] = df.loc[i,'Longitude'] 
-            df.loc[i,'twlat'] = df.loc[i,'Latitude']
-        else:
-            df.loc[i,'twlong'] = df.loc[i,'location'].split(':')[2].split('}')[0].split('[')[1].split(']')[0].split(',')[1]
-            df.loc[i,'twlat'] = df.loc[i,'location'].split(':')[2].split('}')[0].split('[')[1].split(']')[0].split(',')[0]
+#    for i in df.index:
+#        if  df.loc[i,'location'] == 0:
+#            df.loc[i,'twlong'] = df.loc[i,'Longitude'] 
+#            df.loc[i,'twlat'] = df.loc[i,'Latitude']
+#        else:
+#            df.loc[i,'twlong'] = df.loc[i,'location'].split(':')[2].split('}')[0].split('[')[1].split(']')[0].split(',')[1]
+#            df.loc[i,'twlat'] = df.loc[i,'location'].split(':')[2].split('}')[0].split('[')[1].split(']')[0].split(',')[0]
+    df.rename({'latitude':'twlat','longitude':'twlong'})
     return df
 
 
 def today():
     return datetime.datetime.today().strftime('%Y%m%d')
 
-def combine_test(date):
-#    df = pd.concat([df1,df2],axis = 0)
-
-    filename = f'../data/{date}firedata.csv'
-    df = pd.read_csv(filename)
-    df.drop('Unnamed: 0', axis = 1, inplace = True)
-
+def combine_test(df):
     df['index'] = list(range(df.shape[0]))
     df.set_index('index', inplace=True)
     df = cleantest(df)
     df = get_geo(df)
     df['url'] = df['text'].map(fetchurl)
     df['text'] = df['text'].map(lambda x: textclean(x))
-    return df.drop(['locationcoor','location'], axis = 1)
+    return df.drop(['locationcoor'], axis = 1)
 
+
+#from sqlalchemy import create_engine
+#engine = create_engine('mysql+pymysql://root:aa4317327@localhost/twitter')
+#
+#sql = "select * from 24h_twitter;"
+#test = pd.read_sql_query(sql,con = engine)
+#
+#dd = combine_test(test)
+#
+#dd.text
 
 #stop = stopwords.words('english') + ["http",'https', "co",'amp', 'california']
 

@@ -9,26 +9,18 @@ Created on Fri Nov  1 10:13:01 2019
 import pandas as pd
 import numpy as np
 import time
-
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.linear_model import LogisticRegression
-
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.svm import SVC
-from sklearn.metrics import confusion_matrix
-
 from tensorflow.keras.models import Sequential, load_model
 from tensorflow.keras.layers import Dense
 from nltk.corpus import stopwords
-
 import pickle
-#import Cleaning
-#
-##Cleaning.today()
+
 #df = pd.read_csv('../data/trainset.csv')
-#dt = Cleaning.combine_test('20191102')
+#dt = Cleaning.combine_test(pd.read_csv('../data/20191104firedata.csv'))
 
 
 def prepare(df,dt):
@@ -47,8 +39,11 @@ def prepare(df,dt):
     
     return X_train, X_test, y_train, y_test, X_result
 
+
+
+#
 #X_train, X_test, y_train, y_test, X_result = prepare(df,dt)
-# Used for tunning the model
+## Used for tunning the model
 #    pipe_log = {
 #                'C':[1e-9,1e-4,1,1e4,1e9]
 #                }
@@ -69,21 +64,24 @@ def prepare(df,dt):
 #    g_log = GridSearchCV(LogisticRegression(), pipe_log, cv = 3, verbose= 3, n_jobs = -1)
 #    g_svc = GridSearchCV(SVC(), pipe_svc , cv = 3, verbose= 3, n_jobs = -1)
 #    g_rf = GridSearchCV(RandomForestClassifier(), pipe_rf, cv = 3, verbose= 3, n_jobs = -1)
-# Using this function to get score for training, testing and operate time
+#    
+  
+## Using this function to get score for training, testing and operate time, used for tunning the model
+#def get_score(X_train,X_test,g_model):
+#    t0 = time.time()
+#    g_model.fit(X_train,y_train)
+#    model = g_model.best_estimator_
+#    param = g_model.best_params_
+#    t1 = time.time() - t0
+#    return [model.score(X_train, y_train), model.score(X_test, y_test), param, t1] 
 
-def get_score(X_train,X_test,g_model):
-    t0 = time.time()
-    g_model.fit(X_train,y_train)
-    model = g_model.best_estimator_
-    param = g_model.best_params_
-    t1 = time.time() - t0
-    return [model.score(X_train, y_train), model.score(X_test, y_test), param, t1] 
-
+#Build and save logistic Regression Model
 def build_log(X_train,y_train):
     log = LogisticRegression(C = 1)
     log.fit(X_train, y_train)
     pickle.dump(log,open('../Model/log_model.sav','wb'))
     
+#Build and save RandomForest Model
 def build_rf(X_train,y_train):
     rf = RandomForestClassifier(n_estimators = 400,
                                 max_depth = 20,
@@ -91,12 +89,13 @@ def build_rf(X_train,y_train):
     rf.fit(X_train,y_train)
     pickle.dump(rf,open('../Model/rf_model.sav','wb'))
     
-    
+#Build SVC model  
 def build_svc(X_train,y_train):
     svc = SVC(C = 1, kernel = 'rbf', gamma = 'scale')
     svc.fit(X_train,y_train)
     pickle.dump(svc,open('../Model/svc_model.sav','wb'))
     
+#Build Neural Network model
 def build_ann(X_train,y_train):
     ANN = Sequential()
     ANN.add(
@@ -124,13 +123,11 @@ def build_ann(X_train,y_train):
     ANN.fit(np.array(X_train), np.array(y_train), batch_size = 10, epochs = 10)
     ANN.save_weights('../Model/ann_model_weights.h5')
 
-#
+#save the models
 #build_log(X_train, y_train)    
 #build_rf(X_train,y_train)
 #build_svc(X_train,y_train)
 #build_ann()
-
-
 
 
 def call_log():
@@ -166,10 +163,8 @@ def call_ann():
     ANN.compile(optimizer='adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
     ANN.load_weights('../Model/ANN_model_weights.h5')
     return ANN
-#
-#xx = call_log().score(X_test,y_test)
-#xx
 
+# This function can find missclassified input
 def findmisclass(df, pred,y_test):
     dtest = df.loc[y_test.index,:]
     dtest['pred'] = [int(i) for i in pred]

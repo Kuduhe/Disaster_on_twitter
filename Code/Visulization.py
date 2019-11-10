@@ -5,13 +5,15 @@ from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 from mpl_toolkits.basemap import Basemap
 
-stop = stopwords.words('english') + ["http",'https', "co",'amp', 'california']
+import pandas as pd
+
+stop = stopwords.words('english') + ["http",'https', "co",'amp','california']
 
 def wordcloud(df,relevant):
     cloudfire = ''
     for i in df.index:
         if df.loc[i,'relevant'] == relevant:
-            cloudfire = cloudfire + ' ' + df.loc[i,'text'].lower()
+            cloudfire = cloudfire + ' ' + df.loc[i,'tweet_text'].lower()
     plt.figure(figsize = (13,10))
     wordcloud = WordCloud(stopwords= stop, width = 800, height=400, ranks_only= 200, background_color='white').generate(cloudfire)
     plt.imshow(wordcloud, interpolation='bilinear')
@@ -37,3 +39,6 @@ def mapping(df,i):
 #    m.plot(x1,y1, "*", markersize = 20, color = 'red')
     plt.title('Live Fire Map');
     
+#df = pd.read_csv('eq_tweets_test.csv')
+#
+#wordcloud(df,0)
